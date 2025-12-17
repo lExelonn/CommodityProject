@@ -72,7 +72,32 @@ public class Main {
     // ======== 10 REQUIRED METHODS (Students fill these) ========
 
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY";
+
+        if (month < 0 || month >= MONTHS) {
+            return "INVALID_MONTH";
+        }
+
+        int bestCommodity = 0;
+        int bestProfit = 0;
+
+
+        for (int d = 0; d < DAYS; d++) {
+            bestProfit += data[month][0][d];
+        }
+
+        for (int c = 1; c < COMMS; c++) {
+            int sum = 0;
+            for (int d = 0; d < DAYS; d++) {
+                sum += data[month][c][d];
+            }
+
+            if (sum > bestProfit) {
+                bestProfit = sum;
+                bestCommodity = c;
+            }
+        }
+
+        return commodities[bestCommodity] + " " + bestProfit;
     }
 
     public static int totalProfitOnDay(int month, int day) {
@@ -115,7 +140,6 @@ public class Main {
         loadData();
         System.out.println("Data loaded – ready for queries");
 
-
-
+        
     }
 }
