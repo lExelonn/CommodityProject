@@ -10,9 +10,63 @@ public class Main {
     static String[] months = {"January","February","March","April","May","June",
             "July","August","September","October","November","December"};
 
+    static int[][][] data = new int[MONTHS][COMMS][DAYS];
 
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
     public static void loadData() {
+
+        for (int m = 0; m < MONTHS; m++) {
+
+            String fileName = "Data_Files/" + months[m] + ".txt";
+
+            try {
+                Scanner sc = new Scanner(new File(fileName));
+
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine().trim();
+                    if (line.isEmpty())
+                        continue;
+
+                    String[] parts = line.split(",");
+                    if (parts.length != 3)
+                        continue;
+
+                    int day;
+                    try {
+                        day = Integer.parseInt(parts[0]);
+                    } catch (Exception e) {
+                        continue;
+                    }
+                    if (day < 1 || day > 28)
+                        continue;
+
+                    String commodity = parts[1];
+                    int commIndex = -1;
+                    for (int i = 0; i < COMMS; i++) {
+                        if (commodities[i].equals(commodity)) {
+                            commIndex = i;
+                            break;
+                        }
+                    }
+                    if (commIndex == -1)
+                        continue;
+
+                    int profit;
+                    try {
+                        profit = Integer.parseInt(parts[2]);
+                    } catch (Exception e) {
+                        continue;
+                    }
+
+                    data[m][commIndex][day - 1] = profit;
+                }
+
+                sc.close();
+
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
@@ -60,5 +114,8 @@ public class Main {
     public static void main(String[] args) {
         loadData();
         System.out.println("Data loaded – ready for queries");
+
+
+
     }
 }
