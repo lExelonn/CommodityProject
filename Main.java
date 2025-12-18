@@ -101,11 +101,51 @@ public class Main {
     }
 
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+
+        if (month < 0 || month >= MONTHS)
+            return -99999;
+
+        if (day < 1 || day > DAYS)
+            return -99999;
+
+        int total = 0;
+
+        for (int c = 0; c < COMMS; c++) {
+            total += data[month][c][day - 1];
+        }
+
+        return total;
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
-        return 1234;
+
+        if (from < 1 || to > 28 || from > to) {
+            return -99999;
+        }
+
+        int commIndex = -1;
+        for (int i = 0; i < COMMS; i++) {
+            if (commodities[i].equals(commodity)) {
+                commIndex = i;
+                break;
+            }
+        }
+
+        if (commIndex == -1) {
+            return -99999;
+        }
+
+        int total = 0;
+
+
+        for (int m = 0; m < MONTHS; m++) {
+
+            for (int d = from - 1; d <= to - 1; d++) {
+                total += data[m][commIndex][d];
+            }
+        }
+
+        return total;
     }
 
     public static int bestDayOfMonth(int month) {
@@ -140,6 +180,5 @@ public class Main {
         loadData();
         System.out.println("Data loaded – ready for queries");
 
-        
     }
 }
