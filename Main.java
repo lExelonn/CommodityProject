@@ -296,11 +296,70 @@ public class Main {
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
-        return "DUMMY is better by 1234";
+
+        int index1 = -1;
+        int index2 = -1;
+
+        for (int i = 0; i < COMMS; i++) {
+            if (commodities[i].equals(c1)) index1 = i;
+            if (commodities[i].equals(c2)) index2 = i;
+        }
+
+        if (index1 == -1 || index2 == -1) {
+            return "INVALID_COMMODITY";
+        }
+
+        int sum1 = 0;
+        int sum2 = 0;
+
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = 0; d < DAYS; d++) {
+                sum1 += data[m][index1][d];
+                sum2 += data[m][index2][d];
+            }
+        }
+
+        if (sum1 > sum2) {
+            return c1 + " is better by " + (sum1 - sum2);
+        }
+
+        else if (sum2 > sum1) {
+
+            return c2 + " is better by " + (sum2 - sum1);
+        }
+        else {
+            return "Equal";
+        }
     }
 
     public static String bestWeekOfMonth(int month) {
-        return "DUMMY";
+
+        if (month < 0 || month >= MONTHS) {
+            return "INVALID_MONTH";
+        }
+
+        int bestWeek = 0;
+        int bestProfit = Integer.MIN_VALUE;
+
+        for (int w = 0; w < 4; w++) {
+
+            int weekSum = 0;
+            int startDay = w * 7;
+            int endDay = startDay + 7;
+
+            for (int d = startDay; d < endDay; d++) {
+                for (int c = 0; c < COMMS; c++) {
+                    weekSum += data[month][c][d];
+                }
+            }
+
+            if (weekSum > bestProfit) {
+                bestProfit = weekSum;
+                bestWeek = w;
+            }
+        }
+
+        return "Week " + (bestWeek + 1);
     }
 
     public static void main(String[] args) {
