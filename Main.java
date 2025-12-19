@@ -149,11 +149,63 @@ public class Main {
     }
 
     public static int bestDayOfMonth(int month) {
-        return 1234;
+
+        if (month < 0 || month >= MONTHS) {
+            return -1;
+        }
+
+        int bestDay = 1;
+        int bestProfit = Integer.MIN_VALUE;
+
+        for (int d = 0; d < DAYS; d++) {
+            int dailyTotal = 0;
+
+            for (int c = 0; c < COMMS; c++) {
+                dailyTotal += data[month][c][d];
+            }
+
+            if (dailyTotal > bestProfit) {
+                bestProfit = dailyTotal;
+                bestDay = d + 1;
+            }
+        }
+
+        return bestDay;
     }
 
     public static String bestMonthForCommodity(String comm) {
-        return "DUMMY";
+
+        int commIndex = -1;
+
+        for (int i = 0; i < COMMS; i++) {
+            if (commodities[i].equals(comm)) {
+                commIndex = i;
+                break;
+            }
+        }
+
+        if (commIndex == -1) {
+            return "INVALID_COMMODITY";
+        }
+
+        int bestMonth = 0;
+        int bestProfit = Integer.MIN_VALUE;
+
+        for (int m = 0; m < MONTHS; m++) {
+
+            int monthTotal = 0;
+
+            for (int d = 0; d < DAYS; d++) {
+                monthTotal += data[m][commIndex][d];
+            }
+
+            if (monthTotal > bestProfit) {
+                bestProfit = monthTotal;
+                bestMonth = m;
+            }
+        }
+
+        return months[bestMonth];
     }
 
     public static int consecutiveLossDays(String comm) {
