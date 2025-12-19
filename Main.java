@@ -209,15 +209,90 @@ public class Main {
     }
 
     public static int consecutiveLossDays(String comm) {
-        return 1234;
+
+        int commIndex = -1;
+
+        for (int i = 0; i < COMMS; i++) {
+            if (commodities[i].equals(comm)) {
+                commIndex = i;
+                break;
+            }
+        }
+
+        if (commIndex == -1)
+            return -1;
+
+        int longest = 0;
+        int current = 0;
+
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = 0; d < DAYS; d++) {
+                if (data[m][commIndex][d] < 0) {
+                    current++;
+                    if (current > longest)
+                        longest = current;
+                } else {
+                    current = 0;
+                }
+            }
+        }
+
+        return longest;
     }
 
     public static int daysAboveThreshold(String comm, int threshold) {
-        return 1234;
+
+        int commIndex = -1;
+
+        for (int i = 0; i < COMMS; i++) {
+            if (commodities[i].equals(comm)) {
+                commIndex = i;
+                break;
+            }
+        }
+
+        if (commIndex == -1)
+            return -1;
+
+        int count = 0;
+
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = 0; d < DAYS; d++) {
+                if (data[m][commIndex][d] > threshold)
+                    count++;
+            }
+        }
+
+        return count;
     }
 
     public static int biggestDailySwing(int month) {
-        return 1234;
+
+
+        if (month < 0 || month >= MONTHS) {
+            return -99999;
+        }
+
+        int maxSwing = 0;
+
+        for (int d = 1; d < DAYS; d++) {
+
+            int yesterdayTotal = 0;
+            int todayTotal = 0;
+
+            for (int c = 0; c < COMMS; c++) {
+                yesterdayTotal += data[month][c][d - 1];
+                todayTotal += data[month][c][d];
+            }
+
+            int swing = Math.abs(todayTotal - yesterdayTotal);
+
+            if (swing > maxSwing) {
+                maxSwing = swing;
+            }
+        }
+
+        return maxSwing;
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
